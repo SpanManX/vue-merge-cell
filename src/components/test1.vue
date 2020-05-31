@@ -6,15 +6,11 @@
                 <th v-for="(item,index) in tableHeader" :key="index">{{item.title}}</th>
             </tr>
             </thead>
-            <tbody id="c-table" v-if="!html[pageNum - 1] && bool">
-            <tr v-for="(item,index) in data" :key="index" :id="`c-tr-${index}`">
+            <tbody id="c-table1" v-if="bool">
+            <tr v-for="(item,index) in data" :key="index">
                 <td v-for="(val,num) in tableHeader" :key="num" :id="'c-td-'+index +'-'+ num">
                     <slot :name="val.key" :row="item[val.key]">{{item[val.key]}}</slot>
                 </td>
-            </tr>
-            </tbody>
-            <tbody v-else-if="html[pageNum - 1]">
-            <tr v-for="(item,index) in data" :key="index" v-html="fun(`c-tr-${index}`)">
             </tr>
             </tbody>
         </table>
@@ -27,11 +23,11 @@
 </template>
 
 <script>
-    import {mergeCellCache} from "../js/merge-cell";
+    import {mergeCell} from "../js/merge-cell";
     import {tableHeader, tableData} from "../js/tableData";
 
     export default {
-        name: "test",
+        name: "test1",
         data() {
             return {
                 data: [],
@@ -64,14 +60,9 @@
                     this.data = arr;
                     this.bool = true;
                     this.$nextTick(() => {
-                        this.html = mergeCellCache({row: 7, column: [0, 1, 2], pageNum: this.pageNum})
+                        this.html = mergeCell({row: 7, column: [0, 1, 2],domName:'#c-table1'})
                     })
                 })
-            },
-            fun(index) {
-                if (this.html[this.pageNum - 1][index]) {
-                    return this.html[this.pageNum - 1][index].innerHTML
-                }
             },
             changePage() {
                 this.loadTable()
