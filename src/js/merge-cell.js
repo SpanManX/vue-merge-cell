@@ -32,7 +32,7 @@ export function mergeCellCache({row, column = [], pageNum}) {
         let table = doc.querySelector('#c-table');
         let rowLength = table.rows.length;
         for (let i = 0; i < rowLength; i++) {
-            obj[`c-tr-${i}`] = doc.querySelector(`#c-tr-${i}`)
+            obj[`c-tr-${i}`] = table.querySelector(`#c-tr-${i}`)
         }
         domObj.push(obj, page);
         return {}
