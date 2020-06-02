@@ -14,7 +14,7 @@
             </tr>
             </tbody>
             <tbody v-else-if="html[pageNum - 1]">
-            <tr v-for="(item,index) in data" :key="index" v-html="fun(`c-tr-${index}`)">
+            <tr v-for="index in Object.keys(data)" :key="index" v-html="generateDom(`c-tr-${index}`)">
             </tr>
             </tbody>
         </table>
@@ -34,14 +34,13 @@
         name: "test",
         data() {
             return {
-                data: [],
-                bool: true,
-                tableHeader: tableHeader,
-                tableData: tableData,
-                pageSize: 3,
+                data: [],                 // 分页列表数据
+                bool: true,               // 控制没使用缓存的tbody重置dom
+                tableHeader: tableHeader, // 表头
+                tableData: tableData,     // 全部列表数据
+                pageSize: 5,
                 pageNum: 1,
                 html: {},
-                htmlBool: true
             }
         },
         mounted() {
@@ -50,10 +49,14 @@
             })
         },
         methods: {
+            /**
+             *  加载列表
+             **/
             loadTable() {
                 this.bool = false;
                 this.$nextTick(() => {
                     let arr = [];
+                    // 计算分页列表数据
                     for (let i = (this.pageNum * this.pageSize) - this.pageSize; i < this.pageNum * this.pageSize; i++) {
                         if (i < this.pageNum * this.pageSize) {
                             if (typeof tableData[i] !== 'undefined') {
@@ -64,15 +67,23 @@
                     this.data = arr;
                     this.bool = true;
                     this.$nextTick(() => {
-                        this.html = mergeCellCache({row: 7, column: [0, 1, 2], pageNum: this.pageNum})
+                        this.html = mergeCellCache({row: 7, column: [0, 1, 2 , 3 ,4], pageNum: this.pageNum,linkage:true})
                     })
                 })
             },
-            fun(index) {
+
+            /**
+             *  创建td元素（缓存的元素）
+             **/
+            generateDom(index) {
                 if (this.html[this.pageNum - 1][index]) {
                     return this.html[this.pageNum - 1][index].innerHTML
                 }
             },
+
+            /**
+             *  翻页
+             **/
             changePage() {
                 this.loadTable()
             }
@@ -103,7 +114,7 @@
             text-align: center;
 
             tr {
-                height: 25px;
+                height: 42px;
 
                 td {
                     border: 1px #e8eaec solid;

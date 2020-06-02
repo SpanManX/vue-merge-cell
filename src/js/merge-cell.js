@@ -22,13 +22,13 @@ let doc = document;
  * @param {Array} column - 要合并的行
  * @param {Number}  page - 当前页码
  **/
-export function mergeCellCache({row, column = [], pageNum}) {
+export function mergeCellCache({row, column = [], pageNum,linkage = false}) {
     let obj = {};
     let page = pageNum - 1;
     if (domObj[page]) {
         return domObj
     } else {
-        mergeCell({row, column});
+        mergeCell({row, column,linkage});
         let table = doc.querySelector('#c-table');
         let rowLength = table.rows.length;
         for (let i = 0; i < rowLength; i++) {
@@ -42,17 +42,18 @@ export function mergeCellCache({row, column = [], pageNum}) {
 
 /**
  * @description 合并单元格
- * @param {Number}     row - 要合并的列
- * @param {Array}   column - 要合并的行
- * @param {String} domName - dom
+ * @param {Number}      row - 要合并的列
+ * @param {Array}    column - 要合并的行
+ * @param {String}  domName - dom
+ * @param {Boolean} linkage - row和column是否关联
  **/
-export function mergeCell({row, column = [], domName = '#c-table'}) {
+export function mergeCell({row, column = [], domName = '#c-table',linkage = false}) {
     let table = doc.querySelector(domName);
     let rowLength = table.rows.length;
     let colLength = table.rows[0].cells.length;
     let dom1 = null;
     let dom2 = null;
-    // 合并行
+    // 列合并
     for (let i = 0; i < colLength; i++) {
         if (i === row) {
             break
@@ -69,16 +70,19 @@ export function mergeCell({row, column = [], domName = '#c-table'}) {
         }
     }
 
-    // 列合并
+    // 行内合并
     let num = 0;
     for (let item of column) {
         for (let i = 0; i < rowLength; i++) {
             if (i === item) {
                 for (let j = 0; j < colLength; j++) {
+                    if (j === (row - 1) && linkage) {
+                        break
+                    }
                     dom1 = table.querySelector(`#c-td-${i}-${j}`);
                     dom2 = table.querySelector(`#c-td-${i}-${j + 1}`);
                     if (dom2 !== null && dom1 !== null) {
-                        if ((dom1.innerText !== '' && dom2.innerText !== '') && dom1.rowSpan === 1 && dom2.rowSpan === 1) {
+                        if ((dom1.innerText !== '' && dom2.innerText !== '') && dom1.rowSpan === dom2.rowSpan) {
                             if (dom1.innerText === dom2.innerText) {
                                 num++;
                                 dom2.colSpan = num + 1;

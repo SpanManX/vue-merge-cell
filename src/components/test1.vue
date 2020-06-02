@@ -30,14 +30,12 @@
         name: "test1",
         data() {
             return {
-                data: [],
-                bool: true,
-                tableHeader: tableHeader,
-                tableData: tableData,
+                data: [],                 // 分页列表数据
+                bool: true,               // 控制没使用缓存的tbody重置dom
+                tableHeader: tableHeader, // 表头
+                tableData: tableData,     // 全部列表数据
                 pageSize: 3,
                 pageNum: 1,
-                html: {},
-                htmlBool: true
             }
         },
         mounted() {
@@ -46,10 +44,14 @@
             })
         },
         methods: {
+            /**
+             *  加载列表
+             **/
             loadTable() {
                 this.bool = false;
                 this.$nextTick(() => {
                     let arr = [];
+                    // 计算分页列表数据
                     for (let i = (this.pageNum * this.pageSize) - this.pageSize; i < this.pageNum * this.pageSize; i++) {
                         if (i < this.pageNum * this.pageSize) {
                             if (typeof tableData[i] !== 'undefined') {
@@ -64,6 +66,10 @@
                     })
                 })
             },
+
+            /**
+             *  翻页
+             **/
             changePage() {
                 this.loadTable()
             }
@@ -94,7 +100,7 @@
             text-align: center;
 
             tr {
-                height: 25px;
+                height: 42px;
 
                 td {
                     border: 1px #e8eaec solid;
