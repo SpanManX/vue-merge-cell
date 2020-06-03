@@ -62,7 +62,7 @@
                     this.data = arr;
                     this.bool = true;
                     this.$nextTick(() => {
-                        this.html = mergeCell({row: 7, column: [0, 1, 2],domName:'#c-table1'})
+                        mergeCell({row: 7, column: [0, 1, 2], target: '#c-table1'})
                     })
                 })
             },

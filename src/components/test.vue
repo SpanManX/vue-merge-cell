@@ -67,7 +67,13 @@
                     this.data = arr;
                     this.bool = true;
                     this.$nextTick(() => {
-                        this.html = mergeCellCache({row: 7, column: [0, 1, 2 , 3 ,4], pageNum: this.pageNum,linkage:true})
+                        this.html = mergeCellCache({
+                            row: 7,
+                            column: [0, 1, 2, 3, 4],
+                            pageNum: this.pageNum,
+                            linkage: true,
+                            target:'#c-table'
+                        })
                     })
                 })
             },
