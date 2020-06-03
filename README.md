@@ -1,6 +1,6 @@
 # vue-merge-cell
 
-###缓存版
+### 缓存版
 ```javascript
 /**
 *  @return {Object} 返回缓存的dom，如果没有缓存的dom返回空对象
@@ -14,7 +14,7 @@ mergeCellCache({
 })
 ```
 
-###非缓存版
+### 非缓存版
 ```javascript
 mergeCell({
     // 传参同上，非缓存版没有pageNum
