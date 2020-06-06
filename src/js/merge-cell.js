@@ -18,11 +18,11 @@ Object.defineProperties(domObj, {
 
 /**
  * @description 合并单元格(缓存版)
- * @param {Number}      row - 要合并的行
- * @param {Array}    column - 要合并第几行的列
- * @param {String}   target - 会将其参数传入document.querySelector以获取到对应 DOM 节点
- * @param {Number}  pageNum - 当前页码
- * @param {Boolean} linkage - row和column是否关联
+ * @param  {Number}      row - 要合并的行
+ * @param  {Array}    column - 要合并第几行的列
+ * @param  {String}   target - 会将其参数传入document.querySelector以获取到对应 DOM 节点
+ * @param  {Number}  pageNum - 当前页码
+ * @param  {Boolean} linkage - row和column是否关联
  * @return {Object} 返回缓存的dom，如果没有缓存的dom返回空对象
  **/
 export function mergeCellCache({row, column = [], target, pageNum = 1, linkage = false}) {
